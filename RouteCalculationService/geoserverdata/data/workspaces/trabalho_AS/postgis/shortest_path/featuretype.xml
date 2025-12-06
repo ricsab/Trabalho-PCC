@@ -1,0 +1,76 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-1a2dbfb3:17e88857040:-7fdc</id>
+  <name>shortest_path</name>
+  <nativeName>shortest_path</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-1a2dbfb3:17e88857040:-7ff4</id>
+  </namespace>
+  <title>shortest_path</title>
+  <keywords>
+    <string>features</string>
+    <string>shortest_path</string>
+  </keywords>
+  <srs>EPSG:4326</srs>
+  <nativeBoundingBox>
+    <minx>-8.49908593468772</minx>
+    <maxx>-8.49867337230463</maxx>
+    <miny>41.534300607408525</miny>
+    <maxy>41.536051774573764</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-8.49908593468772</minx>
+    <maxx>-8.49867337230463</maxx>
+    <miny>41.534300607408525</miny>
+    <maxy>41.536051774573764</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>shortest_path</name>
+        <sql>SELECT&#xd;
+ MIN(r.seq) AS seq,&#xd;
+ e.old_id as id,&#xd;
+ e.name,&#xd;
+ e.type,&#xd;
+ sum(e.distance) AS distance,&#xd;
+ ST_Collect(e.the_geom) AS geom&#xd;
+From&#xd;
+ pgr_dijkstra(&apos;SELECT id, source, target, distance as cost From map_noded&apos;, %source%, %target%, false) as r, map_noded as e&#xd;
+Where&#xd;
+ r.edge=e.id&#xd;
+Group by e.old_id, e.name, e.type
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>geom</name>
+          <type>MultiLineString</type>
+          <srid>-1</srid>
+        </geometry>
+        <parameter>
+          <name>source</name>
+          <defaultValue>6</defaultValue>
+          <regexpValidator>^[\d]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>target</name>
+          <defaultValue>9</defaultValue>
+          <regexpValidator>^[\d]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-1a2dbfb3:17e88857040:-7fec</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

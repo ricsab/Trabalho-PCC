@@ -1,0 +1,353 @@
+{
+     "openapi": "3.0.0",
+     "info": {
+          "title": "Auth Service",
+          "version": "v1"
+     },
+     "servers": [
+          {
+               "url": "http://localhost:5001"
+          }
+     ],
+     "paths": {
+          "/userRoles/getAll": {
+               "get": {
+                    "description": "presents all possible user roles",
+                    "tags": ["UserRoles"],
+                    "responses": {
+                         "200": {
+                              "description": "All user roles",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objUserRolesResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/users/login": {
+               "post": {
+                    "description": "Allow a user to performa the login and get a authentication token",
+                    "tags": ["Users"],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objLoginRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with jwttoken",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/users/register": {
+               "post": {
+                    "description": "Regist a new user",
+                    "tags": ["Users"],
+                    "requestBody": {
+                         "content": {
+                              "multipart/form-data": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objRegisterRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indicating if user was registered",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/users/addbalance": {
+               "post": {
+                    "description": "Adds balance to user account",
+                    "tags": ["Users"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objUserBalanceRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with current balance",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/users/takebalance": {
+               "post": {
+                    "description": "Removes balance from user account",
+                    "tags": ["Users"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objUserBalanceRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with current balance",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/users/getByUsername/{username}": {
+               "get": {
+                    "description": "Presentes the user with the given user name",
+                    "tags": ["Users"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "username",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "example": "Ricardo"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "The user with the given username",
+                              "content": {
+                                   "application/json": {
+                                        "schema":{ 
+                                             "$ref": "#/components/schemas/objUserResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "components": {
+          "securitySchemes": {
+               "jwt": {
+                    "type": "http",
+                    "description": "JWT Authorization header using the Bearer scheme.",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+               }
+             },
+          "schemas": {
+               "objUserRolesResponse": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "userRolesId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objLoginRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "string"
+                         }
+                    }
+               },
+               "objLoginResponse": {
+                    "type": "object",
+                    "properties": {
+                         "_id": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "lat": {
+                              "type": "number"
+                         },
+                         "long": {
+                              "type": "number"
+                         },
+                         "date": {
+                              "type": "string",
+                              "format": "date-time"
+                         }
+                    }
+               },
+               "objRegisterRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "name": {
+                              "type": "string"
+                         },
+                         "email": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "string"
+                         },
+                         "image": {
+                              "type": "string",
+                              "format": "binary"
+                         },
+                         "userRoleId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objUserBalanceRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "balance": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objResponse": {
+                    "type": "object",
+                    "properties": {
+                         "message": {
+                              "type": "string"
+                         }
+                    }
+               },
+               "objUserResponse": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "email": {
+                              "type": "string"
+                         },
+                         "locationImage": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "object",
+                              "properties": { 
+                                   "hash": {
+                                        "type": "string"
+                                   },
+                                   "_id": {
+                                        "type": "string"
+                                   },
+                                   "salt": {
+                                        "type": "string"
+                                   }
+                              }
+                         },
+                         "address": {
+                              "type": "object",
+                              "properties": { 
+                                   "city": {
+                                        "type": "string"
+                                   },
+                                   "street": {
+                                        "type": "string"
+                                   },
+                                   "country": {
+                                        "type": "string"
+                                   },
+                                   "postCode": {
+                                        "type": "string"
+                                   },
+                                   "houseNumber": {
+                                        "type": "number"
+                                   }
+                              }
+                         },
+                         "age": {
+                              "type": "number"
+                         },
+                         "gender": {
+                              "type": "string"
+                         },
+                         "userRoleId": {
+                              "type": "number"
+                         },
+                         "balance": {
+                              "type": "number"
+                         },
+                         "jwtToken": {
+                              "type": "string"
+                         }
+                    }
+               }
+          }
+     },
+     "responses": {
+          "400BadRequest": {
+               "description": "Bad request."
+          }
+     }
+}

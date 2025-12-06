@@ -1,0 +1,1337 @@
+{
+     "openapi": "3.0.0",
+     "info": {
+          "title": "Rent Service",
+          "version": "v1"
+     },
+     "servers": [
+          {
+               "url": "http://localhost:5002"
+          }
+     ],
+     "paths": {
+          "/auth/login": {
+               "post": {
+                    "description": "Allow a user to performa the login and get a authentication token",
+                    "tags": ["Auth"],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objLoginRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with jwttoken",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/auth/register": {
+               "post": {
+                    "description": "Regist a new user",
+                    "tags": ["Auth"],
+                    "requestBody": {
+                         "content": {
+                              "multipart/form-data": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objRegisterRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indicating if user was registered",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/auth/getByUsername/{username}": {
+               "get": {
+                    "description": "Presentes the user with the given user name",
+                    "tags": ["Auth"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "username",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string",
+                                   "example": "Ricardo"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "The user with the given username",
+                              "content": {
+                                   "application/json": {
+                                        "schema":{ 
+                                             "$ref": "#/components/schemas/objUserResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/auth/addbalance": {
+               "post": {
+                    "description": "Adds balance to user account",
+                    "tags": ["Auth"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objUserBalanceRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with current balance",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/auth/takebalance": {
+               "post": {
+                    "description": "Removes balance from user account",
+                    "tags": ["Auth"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objUserBalanceRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message with current balance",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleLocation/getAll": {
+               "get": {
+                    "description": "Presents all vehicle locations",
+                    "tags": ["VehicleLocation"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                         "name": "from",
+                         "description": "Start date of period",
+                         "in": "query",
+                         "schema": {
+                              "type": "string",
+                              "format":"date-time",
+                              "example": "2021-12-27T12:30:30"
+                              }
+                         }, 
+                         {
+                         "name": "to",
+                         "description": "End date of period",
+                         "in": "query",
+                         "schema": {
+                              "type": "string",
+                              "format":"date-time",
+                              "example": "2021-12-28T12:30:30"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "All locations",
+                              "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "type": "array",
+                                        "items": {
+                                             "$ref": "#/components/schemas/objVehicleLocationResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleLocation/getById/{vehicleId}": {
+               "get": {
+               "description": "presents all vehicle locations",
+               "tags": ["VehicleLocation"],
+               "security": [
+                    {
+                       "jwt": []
+                    }
+                 ],
+               "parameters": [
+                    {
+                    "name": "vehicleId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                    "type": "number",
+                    "example": 1
+                    }
+                    }, 
+                    {
+                    "name": "from",
+                    "description": "Start date of period",
+                    "in": "query",
+                    "schema": {
+                    "type": "string",
+                    "format":"date-time",
+                    "example": "2021-12-27T12:30:30"
+                    }
+                    }, 
+                    {
+                    "name": "to",
+                    "description": "End date of period",
+                    "in": "query",
+                    "schema": {
+                    "type": "string",
+                    "format":"date-time",
+                    "example": "2021-12-28T12:30:30"
+                    }
+                    }
+               ],
+               "responses": {
+                    "200": {
+                    "description": "All locations of given vehicle",
+                    "content": {
+                    "application/json": {
+                         "schema": {
+                         "type": "array",
+                         "items": {
+                              "$ref": "#/components/schemas/objVehicleLocationResponse"
+                         }
+                         }
+                    }
+                    }
+                    }
+               }
+               }
+          },
+          "/vehicleLocation/getAllLatestLocation": {
+               "get": {
+               "description": "Presents all vehicle last locations",
+               "tags": ["VehicleLocation"],
+               "security": [
+                    {
+                       "jwt": []
+                    }
+                 ],
+               "responses": {
+                    "200": {
+                    "description": "All lateste locations of the vehicles",
+                    "content": {
+                    "application/json": {
+                         "schema": {
+                         "type": "array",
+                         "items": {
+                              "$ref": "#/components/schemas/objVehicleLocationResponse"
+                         }
+                         }
+                    }
+                    }
+                    }
+               }
+               }
+          },
+          "/vehicleLocation/getLatestLocation/{vehicleId}": {
+               "get": {
+               "description": "Presents a vehicle last location",
+               "tags": ["VehicleLocation"],
+               "security": [
+                    {
+                       "jwt": []
+                    }
+                 ],
+               "parameters": [
+                    {
+                    "name": "vehicleId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                    "type": "number",
+                    "example": 1
+                    }
+                    }
+               ],
+               "responses": {
+                    "200": {
+                    "description": "Last location of given vehicle",
+                    "content": {
+                    "application/json": {
+                         "schema": {
+                         "$ref": "#/components/schemas/objVehicleLocationResponse"
+                         }
+                    }
+                    }
+                    }
+               }
+               }
+          },
+          "/vehicle/getAllVehicles": {
+               "get": {
+                    "description": "presents all vehicles",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "responses": {
+                         "200": {
+                              "description": "All vehicles",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/createVehicle": {  
+               "post": {
+                    "description": "create a new vehicle",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Vehicle created",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/getVehicleById/{vehicleId}": {
+               "get": {
+                    "description": "presents a vehicle",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "A given vehicle",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/updateVehicle/{vehicleId}": {
+               "put": {
+                    "description": "Updates the vehicle information",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleUpdateRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indication if vehicle was updated",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"object",
+                                             "properties":{
+                                                  "message": {
+                                                       "type": "string"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/getAllVehiclesTypes": {
+               "get": {
+                    "description": "presents all vehicle types",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "responses": {
+                         "200": {
+                              "description": "All vehicle type",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/createVehicleType": {
+               "post": {
+                    "description": "create a new vehicle type",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleTypeRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Vehicle type created",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/getVehicleTypeById/{vehicleTypeId}": {
+               "get": {
+                    "description": "presents a vehicle type",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "vehicleTypeId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "vehicle type",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/updateVehicleType/{vehicleTypeId}": {
+               "put": {
+                    "description": "changes the infomation of an vehicle type",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "vehicleTypeId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleTypeUpdateRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indicating if the vechicle types was updated or not",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"object",
+                                             "properties":{
+                                                  "message": {
+                                                       "type": "string"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/getVehicleDetails/{vehicleId}": {
+               "get": {
+                    "description": "Presents the description for a given vehicle",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Details of the vehicle",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleDetailsResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/getAllAvailableVehicles": {
+               "get": {
+                    "description": "Presents the description of each vehicle",
+                    "tags": ["Vehicle"],
+                    "security": [
+                         {
+                            "jwt": []
+                         }
+                      ],
+                    "responses": {
+                         "200": {
+                              "description": "vehicle details",
+                              "content": {
+                                   "application/json": {
+                                        "type":"array",
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleDetailsResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/rent/start/{vehicleId}": {
+               "post": {
+                    "description": "Start vehicle rental",
+                    "tags": ["Rent"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "201": {
+                              "description": "Details of the rent",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objRentResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/rent/stop/{vehicleId}": {
+               "post": {
+                    "description": "Stop vehicle rental",
+                    "tags": ["Rent"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "201": {
+                              "description": "Message indicating ...",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"object",
+                                             "properties":{
+                                                  "message": {
+                                                       "type": "string"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/rent/getClosestVehicle/{latitude}/{longitude}": {
+               "get": {
+                    "description": "presents the closest vehicles",
+                    "tags": ["Rent"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                              "name": "latitude",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 41.537432967860994
+                              }
+                         },
+                         {
+                              "name": "longitude",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": -8.627669026328252
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Closest vehicles",
+                              "content": {
+                                   "application/json": {
+                                        "type":"array",
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleDetailsResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/rent/getRentsByUsername/{username}": {
+               "get": {
+                    "description": "presents all rents by user username",
+                    "tags": ["Rent"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                              "name": "username",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "string"
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "All user rentals",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"array",
+                                             "items":{
+                                                  "$ref": "#/components/schemas/objRentResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/rent/getClosestPath/{latitude}/{longitude}/{vehicleId}": {
+               "get": {
+                    "description": "Presentes the shortest path to a given car",
+                    "tags": ["Rent"],
+                    "security": [
+                         {
+                         "jwt": []
+                         }
+                    ],
+                    "parameters": [
+                         {
+                              "name": "latitude",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 41.537432967860994
+                              }
+                         },
+                         {
+                              "name": "longitude",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": -8.627669026328252
+                              }
+                         },
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "Shortest path to a car",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objShortestPathResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "components": {
+          "securitySchemes": {
+               "jwt": {
+                    "type": "http",
+                    "description": "JWT Authorization header using the Bearer scheme.",
+                    "scheme": "bearer"
+               }
+          },
+          "schemas": {
+               "objUserRolesResponse": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "userRolesId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objLoginRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "string"
+                         }
+                    }
+               },
+               "objLoginResponse": {
+                    "type": "object",
+                    "properties": {
+                         "_id": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "lat": {
+                              "type": "number"
+                         },
+                         "long": {
+                              "type": "number"
+                         },
+                         "date": {
+                              "type": "string",
+                              "format": "date-time"
+                         }
+                    }
+               },
+               "objRegisterRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "name": {
+                              "type": "string"
+                         },
+                         "email": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "string"
+                         },
+                         "image": {
+                              "type": "string",
+                              "format": "binary"
+                         },
+                         "userRoleId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objUserBalanceRequest": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "balance": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objResponse": {
+                    "type": "object",
+                    "properties": {
+                         "message": {
+                              "type": "string"
+                         }
+                    }
+               },
+               "objUserResponse": {
+                    "type": "object",
+                    "properties": {
+                         "username": {
+                              "type": "string"
+                         },
+                         "email": {
+                              "type": "string"
+                         },
+                         "locationImage": {
+                              "type": "string"
+                         },
+                         "password": {
+                              "type": "object",
+                              "properties": { 
+                                   "hash": {
+                                        "type": "string"
+                                   },
+                                   "_id": {
+                                        "type": "string"
+                                   },
+                                   "salt": {
+                                        "type": "string"
+                                   }
+                              }
+                         },
+                         "address": {
+                              "type": "object",
+                              "properties": { 
+                                   "city": {
+                                        "type": "string"
+                                   },
+                                   "street": {
+                                        "type": "string"
+                                   },
+                                   "country": {
+                                        "type": "string"
+                                   },
+                                   "postCode": {
+                                        "type": "string"
+                                   },
+                                   "houseNumber": {
+                                        "type": "number"
+                                   }
+                              }
+                         },
+                         "age": {
+                              "type": "number"
+                         },
+                         "gender": {
+                              "type": "string"
+                         },
+                         "userRoleId": {
+                              "type": "number"
+                         },
+                         "balance": {
+                              "type": "number"
+                         },
+                         "jwtToken": {
+                              "type": "string"
+                         }
+                    }
+               },
+               "objVehicleRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleUpdateRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         }
+                    }
+               },
+               "objVehicleResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         },
+                         "batery": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicletypeId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeUpdateRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleDetailsResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "batery": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         },
+                         "vehicleType":{
+                              "type": "object",
+                              "properties": {
+                                   "id": {
+                                        "type": "number"
+                                   },
+                                   "description": {
+                                        "type": "string"
+                                   },
+                                   "pricePerMinute": {
+                                        "type": "number"
+                                   }
+                              }
+                         }
+                    }
+               },
+               "objVehicleLocationResponse": {
+                   "type": "object",
+                   "properties": {
+                     "_id": {
+                       "type": "string"
+                     },
+                     "vehicleId": {
+                       "type": "number"
+                     },
+                     "lat": {
+                       "type": "number"
+                     },
+                     "long": {
+                       "type": "number"
+                     },
+                     "date": {
+                       "type": "string",
+                       "format": "date-time"
+                     }
+                 }
+               },
+               "objVehicleStartGenerateLocationResponse": {
+                         "message": {
+                         "type": "string"
+                         }
+               },
+               "objClosestVehicleResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "batery": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         },
+                         "vehicleType":{
+                              "type": "object",
+                              "properties": {
+                                   "id": {
+                                        "type": "number"
+                                   },
+                                   "description": {
+                                        "type": "string"
+                                   },
+                                   "pricePerMinute": {
+                                        "type": "number"
+                                   }
+                              }
+                         },
+                         "location":{
+                              "type": "object",
+                              "properties": {
+                                   "lat": {
+                                        "type": "number"
+                                   },
+                                   "long": {
+                                        "type": "number"
+                                   }
+                              }
+                         }
+                    }
+               },
+               "objRentResponse": {
+                    "type": "object",
+                    "properties": {
+                         "startLocation":{
+                              "type": "object",
+                              "properties": {
+                                   "lat": {
+                                        "type": "number"
+                                   },
+                                   "long": {
+                                        "type": "number"
+                                   }
+                              }
+                         },
+                         "endLocation":{
+                              "type": "object",
+                              "properties": {
+                                   "lat": {
+                                        "type": "number"
+                                   },
+                                   "long": {
+                                        "type": "number"
+                                   }
+                              }
+                         },
+                         "startDate": {
+                              "type": "string",
+                              "format": "date-time"
+                         },
+                         "endDate": {
+                              "type": "string",
+                              "format": "date-time"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "username": {
+                              "type": "string"
+                         },
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "balanceSpent": {
+                              "type": "number"
+                         },
+                         "active": {
+                              "type": "boolean"
+                         }
+                    }
+               },
+               "objShortestPathResponse": {
+                    "type": "object",
+                    "properties": {
+                         "type":{
+                              "type": "string"
+                         },
+                         "features":{
+                              "type":"array",
+                              "items":{
+                                   "type": "object",
+                                   "properties": {
+                                        "type":{
+                                             "type": "string"
+                                        },
+                                        "id":{
+                                             "type": "string"
+                                        },
+                                        "geometry":{
+                                             "type": "object",
+                                             "properties": {
+                                                  "type": {
+                                                       "type": "string"
+                                                  },
+                                                  "coordinates": {
+                                                       "type": "array",
+                                                       "items":{
+                                                            "type":"array",
+                                                            "items":{
+                                                                 "type":"array",
+                                                                 "items":{
+                                                                      "type":"number"
+                                                                 }
+                                                            }
+                                                       }
+                                                  }
+                                             }
+                                        },
+                                        "geometry_name": {
+                                             "type": "string"
+                                        },
+                                        "properties":{
+                                             "type": "object",
+                                             "properties": {
+                                                  "seq": {
+                                                       "type": "number"
+                                                  },
+                                                  "id": {
+                                                       "type": "number"
+                                                  },
+                                                  "name": {
+                                                       "type": "string"
+                                                  },
+                                                  "type": {
+                                                       "type": "string"
+                                                  },
+                                                  "distance": {
+                                                       "type": "number"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "responses": {
+          "400BadRequest": {
+               "description": "Bad request."
+          }
+     }
+}

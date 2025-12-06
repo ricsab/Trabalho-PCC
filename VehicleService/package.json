@@ -1,0 +1,23 @@
+{
+     "name": "vehicleservice",
+     "version": "1.0.0",
+     "description": "Manage vehicle and vehicle types",
+     "main": "server.js",
+     "scripts": {
+          "start": "node seedDB.js && node server.js",
+          "seed": "node seedDB.js",
+          "startdev": "node seedDB.js && nodemon server.js"
+     },
+     "author": "",
+     "license": "ISC",
+     "dependencies": {
+          "cors": "^2.8.5",
+          "dotenv": "^14.3.2",
+          "express": "^4.17.2",
+          "mongoose": "^6.1.4",
+          "swagger-ui-express": "^4.3.0"
+     },
+     "devDependencies": {
+          "nodemon": "^2.0.15"
+     }
+}

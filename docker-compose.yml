@@ -1,0 +1,77 @@
+version: "3"
+services:
+     database:
+          image: mongo:latest
+          container_name: database
+          ports:
+               - "27017:27017"
+          restart: always
+
+     auth:
+          build:
+               context: ./AuthService/
+               dockerfile: dockerfile
+          ports:
+               - "5001:5001"
+          environment:
+               - PORT=5001
+               - DBHOST=mongodb://database:27017/
+               - DBNAME=Auth
+               - JWT_SECRET=jwtsecret
+          depends_on:
+               - database
+          restart: "no"
+
+     vehiclelocation:
+          build:
+               context: ./VehicleLocation/
+               dockerfile: dockerfile
+          ports:
+               - "3000:3000"
+               - "1883:1883"
+          environment:
+               - PORT=3000
+               - DBHOST=mongodb://database:27017/
+               - DBNAME=VehicleLocation
+          depends_on:
+               - database
+          restart: "no"
+
+     vehicle:
+          build:
+               context: ./VehicleService/
+               dockerfile: dockerfile
+          ports:
+               - "5003:5003"
+          environment:
+               - PORT=5003
+               - DBHOST=mongodb://database:27017/
+               - DBNAME=Vehicle
+          depends_on:
+               - database
+          restart: "no"
+
+     rent:
+          build:
+               context: ./RentService/
+               dockerfile: dockerfile
+          ports:
+               - "5002:5002"
+          environment:
+               - PORT=5002
+               - DBHOST=mongodb://database:27017/
+               - DBNAME=Rent
+               - JWT_SECRET=jwtsecret
+          depends_on:
+               - database
+          restart: "no"
+
+     agegender:
+          build:
+               context: ./AgeGenderRecognitionService/
+               dockerfile: dockerfile
+          ports:
+               - "5000:5000"
+          environment:
+               - PORT=5000
+          restart: "no"

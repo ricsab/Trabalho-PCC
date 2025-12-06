@@ -1,0 +1,15 @@
+<layer>
+  <name>nearest_vertex</name>
+  <id>LayerInfoImpl-1a2dbfb3:17e88857040:-7fe0</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-78ff667e:12476299803:-7ff9</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-1a2dbfb3:17e88857040:-7fe2</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

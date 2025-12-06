@@ -1,0 +1,17 @@
+pydot
+numpy
+tensorflow
+seaborn
+Keras
+pandas 
+Pillow
+scikit-learn
+matplotlib
+scipy
+Flask
+flask-restplus
+flask-swagger
+flasgger
+werkzeug==0.16.1
+gunicorn
+opencv-python

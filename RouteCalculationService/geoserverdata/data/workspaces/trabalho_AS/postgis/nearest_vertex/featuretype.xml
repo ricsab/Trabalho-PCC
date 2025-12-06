@@ -1,0 +1,79 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-1a2dbfb3:17e88857040:-7fe2</id>
+  <name>nearest_vertex</name>
+  <nativeName>nearest_vertex</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-1a2dbfb3:17e88857040:-7ff4</id>
+  </namespace>
+  <title>nearest_vertex</title>
+  <keywords>
+    <string>nearest_vertex</string>
+    <string>features</string>
+  </keywords>
+  <srs>EPSG:4326</srs>
+  <nativeBoundingBox>
+    <minx>-180.0</minx>
+    <maxx>180.0</maxx>
+    <miny>-90.0</miny>
+    <maxy>90.0</maxy>
+    <crs>EPSG:4326</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-180.0</minx>
+    <maxx>180.0</maxx>
+    <miny>-90.0</miny>
+    <maxy>90.0</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>nearest_vertex</name>
+        <sql>SELECT&#xd;
+ v.id,&#xd;
+ v.the_geom,&#xd;
+ string_agg(distinct(m.name),&apos;,&apos;) AS name&#xd;
+FROM&#xd;
+ map_noded_vertices_pgr AS v,&#xd;
+ map_noded AS m&#xd;
+WHERE&#xd;
+ v.id = (SELECT&#xd;
+           id&#xd;
+         FROM map_noded_vertices_pgr&#xd;
+         ORDER BY the_geom &lt;-&gt; ST_SetSRID(ST_MakePoint(%x%, %y%), 4326) LIMIT 1)&#xd;
+ AND (m.source = v.id OR m.target = v.id)&#xd;
+GROUP BY v.id, v.the_geom
+</sql>
+        <escapeSql>false</escapeSql>
+        <geometry>
+          <name>the_geom</name>
+          <type>Point</type>
+          <srid>-1</srid>
+        </geometry>
+        <parameter>
+          <name>x</name>
+          <defaultValue>41.55</defaultValue>
+          <regexpValidator>^[\d\.\+-eE]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>y</name>
+          <defaultValue>-8,60</defaultValue>
+          <regexpValidator>^[\d\.\+-eE]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-1a2dbfb3:17e88857040:-7fec</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

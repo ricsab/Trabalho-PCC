@@ -1,0 +1,418 @@
+{
+     "openapi": "3.0.0",
+     "info": {
+          "title": "API Vehicle",
+          "version": "v1"
+     },
+     "servers": [
+          {
+               "url": "http://localhost:5003"
+          }
+     ],
+     "paths": {
+          "/vehicle": {
+               "get": {
+                    "description": "presents all vehicles",
+                    "tags": ["Vehicle"],
+                    "responses": {
+                         "200": {
+                              "description": "All vehicles",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               },
+               "post": {
+                    "description": "create a new vehicle",
+                    "tags": ["Vehicle"],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Vehicle created",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicle/{vehicleId}": {
+               "get": {
+                    "description": "presents a vehicle",
+                    "tags": ["Vehicle"],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "A given vehicle",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               },
+               "put": {
+                    "description": "Updates the vehicle information",
+                    "tags": ["Vehicle"],
+                    "parameters": [
+                         {
+                              "name": "vehicleId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleUpdateRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indication if vehicle was updated",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"object",
+                                             "properties":{
+                                                  "message": {
+                                                       "type": "string"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleType": {
+               "get": {
+                    "description": "presents all vehicle types",
+                    "tags": ["VehicleType"],
+                    "responses": {
+                         "200": {
+                              "description": "All vehicle type",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type": "array",
+                                             "items": {
+                                                  "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               },
+               "post": {
+                    "description": "create a new vehicle type",
+                    "tags": ["VehicleType"],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleTypeRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Vehicle type created",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleType/{vehicleTypeId}": {
+               "get": {
+                    "description": "presents a vehicle type",
+                    "tags": ["VehicleType"],
+                    "parameters": [
+                         {
+                              "name": "vehicleTypeId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "vehicle type",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleTypeResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               },
+               "put": {
+                    "description": "changes the infomation of an vehicle type",
+                    "tags": ["VehicleType"],
+                    "parameters": [
+                         {
+                              "name": "vehicleTypeId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "requestBody": {
+                         "content": {
+                              "application/json": {
+                                   "schema": {
+                                        "$ref": "#/components/schemas/objVehicleTypeUpdateRequest"
+                                   }
+                              }
+                         }
+                    },
+                    "responses": {
+                         "201": {
+                              "description": "Message indicating if the vechicle types was updated or not",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "type":"object",
+                                             "properties":{
+                                                  "message": {
+                                                       "type": "string"
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleDetails/{vehicleTypeId}": {
+               "get": {
+                    "description": "presents the description for a given vehicle",
+                    "tags": ["VehicleDetails"],
+                    "parameters": [
+                         {
+                              "name": "vehicleTypeId",
+                              "in": "path",
+                              "required": true,
+                              "schema": {
+                                   "type": "number",
+                                   "example": 1
+                              }
+                         }
+                    ],
+                    "responses": {
+                         "200": {
+                              "description": "vehicle type",
+                              "content": {
+                                   "application/json": {
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleDetailsResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          },
+          "/vehicleAvailableDetails": {
+               "get": {
+                    "description": "presents the description of each vehicle",
+                    "tags": ["VehicleDetails"],
+                    "responses": {
+                         "200": {
+                              "description": "vehicle details",
+                              "content": {
+                                   "application/json": {
+                                        "type":"array",
+                                        "schema": {
+                                             "$ref": "#/components/schemas/objVehicleDetailsResponse"
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "components": {
+          "schemas": {
+               "objVehicleRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleUpdateRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         }
+                    }
+               },
+               "objVehicleResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "vehicleTypeId": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         },
+                         "batery": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicletypeId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleTypeUpdateRequest": {
+                    "type": "object",
+                    "properties": {
+                         "description": {
+                              "type": "string"
+                         },
+                         "pricePerMinute": {
+                              "type": "number"
+                         }
+                    }
+               },
+               "objVehicleDetailsResponse": {
+                    "type": "object",
+                    "properties": {
+                         "vehicleId": {
+                              "type": "number"
+                         },
+                         "description": {
+                              "type": "string"
+                         },
+                         "batery": {
+                              "type": "number"
+                         },
+                         "available": {
+                              "type": "boolean"
+                         },
+                         "vehicleType":{
+                              "type": "object",
+                              "properties": {
+                                   "id": {
+                                        "type": "number"
+                                   },
+                                   "description": {
+                                        "type": "string"
+                                   },
+                                   "pricePerMinute": {
+                                        "type": "number"
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
+     },
+     "responses": {
+          "400BadRequest": {
+               "description": "Bad request."
+          }
+     }
+}

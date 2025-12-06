@@ -1,0 +1,227 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API VehicleLocation",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": { 
+    "/vehicleLocation": {
+      "get": {
+        "description": "presents all vehicle locations",
+        "parameters": [
+          {
+            "name": "from",
+            "description": "Start date of period",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format":"date-time",
+              "example": "2021-12-27T12:30:30"
+            }
+          }, 
+          {
+            "name": "to",
+            "description": "End date of period",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format":"date-time",
+              "example": "2021-12-28T12:30:30"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/objVehicleLocationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicleLocation/{vehicleId}": {
+      "get": {
+        "description": "presents all vehicle locations",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 1
+            }
+          }, 
+          {
+            "name": "from",
+            "description": "Start date of period",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format":"date-time",
+              "example": "2021-12-27T12:30:30"
+            }
+          }, 
+          {
+            "name": "to",
+            "description": "End date of period",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format":"date-time",
+              "example": "2021-12-28T12:30:30"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All locations of given vehicle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/objVehicleLocationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicleLocation/getAllLatestLocation": {
+      "get": {
+        "description": "...",
+        "responses": {
+          "200": {
+            "description": "All lateste locations of the vehicles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/objVehicleLocationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicleLocation/getLatestLocation/{vehicleId}": {
+      "get": {
+        "description": "presents all vehicle locations",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All locations of given vehicle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/objVehicleLocationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicleLocation/{vehicleId}/{start}": {
+      "get": {
+        "description": "Start location generation",
+        "parameters": [
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 1
+            }
+          }, 
+          {
+            "name": "start",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message indication if location generation was started",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/objVehicleStartGenerateLocationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "objVehicleLocationResponse": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "vehicleId": {
+              "type": "number"
+            },
+            "lat": {
+              "type": "number"
+            },
+            "long": {
+              "type": "number"
+            },
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            }
+        }
+      },
+      "objVehicleStartGenerateLocationResponse": {
+            "message": {
+              "type": "string"
+            }
+      }
+    }
+  },
+  "responses": {
+    "400BadRequest": {
+      "description": "Bad request."
+    }
+  }
+}

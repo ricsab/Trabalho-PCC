@@ -1,0 +1,432 @@
+[
+    {
+        "id": "594c4b9397d9a6cd",
+        "type": "tab",
+        "label": "Vehicle Location Simulator",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e94ba6e5fd3cbfac",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Vehicle 1",
+        "func": "msg.payload = { \n    timestamp: msg.payload,\n    vehicleId: 1\n};\n\nmsg.topic = \"VehicleLocation\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 220,
+        "wires": [
+            [
+                "837ff5651561c810"
+            ]
+        ]
+    },
+    {
+        "id": "7ebaf518a414b192",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Vehicle 2",
+        "func": "msg.payload = { \n    timestamp: msg.payload,\n    vehicleId: 2\n};\n\nmsg.topic = \"VehicleLocation\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 280,
+        "wires": [
+            [
+                "837ff5651561c810"
+            ]
+        ]
+    },
+    {
+        "id": "10ba8a138d6ad535",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Vehicle 4",
+        "func": "msg.payload = { \n    timestamp: msg.payload,\n    vehicleId: 4\n};\n\nmsg.topic = \"VehicleLocation\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 400,
+        "wires": [
+            [
+                "837ff5651561c810"
+            ]
+        ]
+    },
+    {
+        "id": "54d06f0dc58b7b95",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Vehicle 3",
+        "func": "msg.payload = { \n    timestamp: msg.payload,\n    vehicleId: 3\n};\n\nmsg.topic = \"VehicleLocation\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 340,
+        "wires": [
+            [
+                "837ff5651561c810"
+            ]
+        ]
+    },
+    {
+        "id": "745f8c466c07f74a",
+        "type": "mqtt out",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1769fb1.3c11385",
+        "x": 1350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ec0d6e70f852fdcd",
+        "type": "debug",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1370,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "837ff5651561c810",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Simulate Vehicle Lat Long",
+        "func": "//Link where the calculation was obtained\n//https://stackoverflow.com/questions/31192451/generate-random-geo-coordinates-within-specific-radius-from-seed-point\n\nvar radius = 50000;//metros\nvar lat_max = 41.58;//Latitude max\nvar lat_min = 41.29; // Latitude min\nvar long_max = -8.26; //Longitude max\nvar long_min = -8.80; // Longitude min\n\nvar u = Math.random();\nvar v = Math.random();\n\nvar lat = Math.random() * (lat_max - lat_min) + lat_min;\nvar long = Math.random() * (long_max - long_min) + long_min;\n\nmsg.payload = { \n    timestamp: msg.payload.timestamp,\n    vehicleId: msg.payload.vehicleId,\n    lat: lat,\n    long: long\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 300,
+        "wires": [
+            [
+                "ec0d6e70f852fdcd",
+                "745f8c466c07f74a"
+            ]
+        ]
+    },
+    {
+        "id": "2844f0362564529a",
+        "type": "mqtt in",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "topic": "/vehicle",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "1769fb1.3c11385",
+        "nl": true,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 70,
+        "y": 40,
+        "wires": [
+            [
+                "f82f8aae2aa828ea",
+                "f3f017c0d4fa6664"
+            ]
+        ]
+    },
+    {
+        "id": "f82f8aae2aa828ea",
+        "type": "debug",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a48a33a7d0ec45aa",
+        "type": "trigger",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "date",
+        "op2type": "date",
+        "duration": "-1",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "stop",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "e94ba6e5fd3cbfac"
+            ]
+        ]
+    },
+    {
+        "id": "f3f017c0d4fa6664",
+        "type": "switch",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "property": "payload.vehicleId",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 4,
+        "x": 70,
+        "y": 260,
+        "wires": [
+            [
+                "c9c308c3b25a7ad4"
+            ],
+            [
+                "9332839a9caa9995"
+            ],
+            [
+                "cf778cf4197f4277"
+            ],
+            [
+                "473b753c4f60cbe5"
+            ]
+        ]
+    },
+    {
+        "id": "6680bf88a654f3a6",
+        "type": "trigger",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "date",
+        "op2type": "date",
+        "duration": "-1",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "stop",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "7ebaf518a414b192"
+            ]
+        ]
+    },
+    {
+        "id": "3851b33112969ec3",
+        "type": "trigger",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "date",
+        "op2type": "date",
+        "duration": "-1",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "stop",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 470,
+        "y": 340,
+        "wires": [
+            [
+                "54d06f0dc58b7b95"
+            ]
+        ]
+    },
+    {
+        "id": "3f67f20fa1ef39fa",
+        "type": "trigger",
+        "z": "594c4b9397d9a6cd",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "date",
+        "op2type": "date",
+        "duration": "-1",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "stop",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 470,
+        "y": 400,
+        "wires": [
+            [
+                "10ba8a138d6ad535"
+            ]
+        ]
+    },
+    {
+        "id": "9332839a9caa9995",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Start & stop",
+        "func": "if(msg.payload.reset == true&& msg.payload.vehicleId == 2){\n    msg.payload = \"stop\"\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "6680bf88a654f3a6"
+            ]
+        ]
+    },
+    {
+        "id": "c9c308c3b25a7ad4",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Start & stop",
+        "func": "if(msg.payload.reset == true && msg.payload.vehicleId == 1){\n    msg.payload = \"stop\"\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "a48a33a7d0ec45aa"
+            ]
+        ]
+    },
+    {
+        "id": "cf778cf4197f4277",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Start & stop",
+        "func": "if(msg.payload.reset == true&& msg.payload.vehicleId == 3){\n    msg.payload = \"stop\"\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "3851b33112969ec3"
+            ]
+        ]
+    },
+    {
+        "id": "473b753c4f60cbe5",
+        "type": "function",
+        "z": "594c4b9397d9a6cd",
+        "name": "Start & stop",
+        "func": "if(msg.payload.reset == true&& msg.payload.vehicleId == 4){\n    msg.payload = \"stop\"\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 400,
+        "wires": [
+            [
+                "3f67f20fa1ef39fa"
+            ]
+        ]
+    },
+    {
+        "id": "1769fb1.3c11385",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]

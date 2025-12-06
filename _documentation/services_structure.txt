@@ -1,0 +1,24 @@
+- root
+     - RentService (API Gateway):
+       > Serviço para registo de aluguers
+       > Comunica com o serviço de simulação de viagens
+     - AuthService 
+       > Serviço para registo e respetivo login de utilizadores
+       > Comunica com o serviço de reconhecimento de género e idade
+     - VehicleService
+       > Serviço utilizado para registo de veículos
+       > Utilizado para gestão de tipos de veiculos e os seus preço
+     - RouteCalculationService
+       > serviço para calculo de rotas
+     - AgeGenderRecognition
+       > serviço para reconhecimento de idade e genero
+     - VehicleLocation (Node-Red)
+       > serviço que irá registar as posições dos diferentes carros de x em x tempo
+       > permitindo com isso simular a viagem de um carro
+
+* Fazer a implementação destes serviços dentro desta pasta 'Trabalho-AS'
+* Por cada serviço criar uma pasta para o mesmo.
+* Fazer a instalação dos 'node-modules' dentro de cada serviço, para possuir dependencias proprias
+* Adicionar as pastas dos 'node-modules' (uma por cada serviço) ao ficheiro '.gitignore'
+* Utilizar linguagem em inglês, para comentários, nomeação de variaveis etc...
+* Cada pasta terá um ficheiro status.txt a indicar o que está feito e o que é necessário fazer (adicionar mais pontos se em falta)

@@ -1,8 +1,0 @@
-<authKeyAuthentication>
-  <id>-232b447d:17ddf03603b:-7ff9</id>
-  <name>authkey</name>
-  <className>org.geoserver.security.GeoServerAuthenticationKeyFilter</className>
-  <authKeyMapperName>propertyMapper</authKeyMapperName>
-  <authKeyParamName>authkey</authKeyParamName>
-  <userGroupServiceName>default</userGroupServiceName>
-</authKeyAuthentication>

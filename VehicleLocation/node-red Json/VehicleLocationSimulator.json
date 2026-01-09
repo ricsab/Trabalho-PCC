@@ -406,7 +406,7 @@
         "id": "1769fb1.3c11385",
         "type": "mqtt-broker",
         "name": "",
-        "broker": "localhost",
+        "broker": "mosquitto",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,

@@ -10,14 +10,17 @@
      },
      "author": "",
      "license": "ISC",
+     "engines": {
+          "node": ">=24"
+     },
      "dependencies": {
           "cors": "^2.8.5",
-          "dotenv": "^14.3.2",
-          "express": "^4.17.2",
-          "mongoose": "^6.1.4",
-          "swagger-ui-express": "^4.3.0"
+          "dotenv": "^17.2.3",
+          "express": "^5.2.1",
+          "mongoose": "^9.1.2",
+          "swagger-ui-express": "^5.0.1"
      },
      "devDependencies": {
-          "nodemon": "^2.0.15"
+          "nodemon": "^3.1.11"
      }
 }

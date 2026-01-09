@@ -6,7 +6,7 @@ const mongodb = {
 };
 
 const urlBaseDados = mongodb.pathLocalhost;
-mongoose.connect(urlBaseDados, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(urlBaseDados);
 
 mongoose.connection.on("connected", () => {
      console.log(`Mongoose connected to ${urlBaseDados}`);

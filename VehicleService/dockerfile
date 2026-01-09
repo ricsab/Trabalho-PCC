@@ -1,4 +1,4 @@
-FROM node:17-alpine3.12
+FROM node:24-alpine
 
 # diretoria onde a aplicação vai estar
 WORKDIR /usr/src/app  

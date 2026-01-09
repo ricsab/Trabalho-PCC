@@ -5,14 +5,10 @@ const config = require("../config/config");
 const receptor = {};
 
 receptor.connect = function connect(connectCallback, messageCallback) {
-     const connectOptions = {
-          host: config.mqtt.broker,
-          port: config.mqtt.port,
-     };
+     const mqttUrl = `mqtt://${config.mqtt.broker}:${config.mqtt.port}`;
+     console.log(`Trying to connect to the MQTT broker at ${mqttUrl}`);
 
-     console.log(`Trying to connect to the MQTT broker at ${config.mqtt.broker} on port ${config.mqtt.port}`);
-
-     receptor.client = mqtt.connect(connectOptions);
+     receptor.client = mqtt.connect(mqttUrl);
 
      receptor.client.on("connect", () => {
           console.log(`Connected successfully to the MQTT broker at ${config.mqtt.broker} on port ${config.mqtt.port}`);

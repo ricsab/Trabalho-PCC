@@ -15,10 +15,10 @@ This project was build with 6 major services:
 -    VehicleService
      > Serviço utilizado para registo de veículos
      > Utilizado para gestão de tipos de veiculos e os seus preço
--    RouteCalculationService
-     > serviço para calculo de rotas
--    AgeGenderRecognition
-     > serviço para reconhecimento de idade e genero
 -    VehicleLocation (Node-Red)
      > serviço que irá registar as posições dos diferentes carros de x em x tempo
      > permitindo com isso simular a viagem de um carro
+
+## Project diagram
+
+![Diagrama de solução](./_documentation/project_Diagram.png "Diagrama de solução")

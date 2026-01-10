@@ -23,8 +23,10 @@ services:
           container_name: nodered
           ports:
                - "1880:1880"
+          environment:
+               - FLOWS=flows.json
           volumes:
-               - ./VehicleLocation/node-red-data:/data
+               - "./VehicleLocation/node-red Json/VehicleLocationSimulator.json:/data/flows.json"
           depends_on:
                - mosquitto
           restart: always

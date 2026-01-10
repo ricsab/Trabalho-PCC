@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const VehicleLocationSchema = mongoose.model("VehicleLocationModel");
 const receptor = require("./client-mqtt-receiver");
-const lista_registos = new Array();
+const recordList = new Array();
 
-exports.leitura_mqtt = function () {
+exports.mqttReceiver = function () {
      console.log("Initiating...");
 
      receptor.connect(
@@ -11,7 +11,7 @@ exports.leitura_mqtt = function () {
                console.log("Successfully connected to the mqtt broker");
           },
           (obj_msg) => {
-               lista_registos.push(obj_msg.value);
+               recordList.push(obj_msg.value);
 
                //Create object to be saved
                const record = new VehicleLocationSchema({

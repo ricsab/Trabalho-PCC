@@ -44,5 +44,5 @@ const serviceRegister = require("./src/mqqt/serviceRegister");
 
 app.listen(PORT, () => {
      console.log(`server executing at http://localhost:${PORT}`);
-     serviceRegister.leitura_mqtt();
+     serviceRegister.mqttReceiver();
 });

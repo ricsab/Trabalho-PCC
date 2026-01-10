@@ -189,18 +189,19 @@ exports.getByUsername = async (req, res) => {
 };
 
 const sendImageToAgeGenderPrediction = async (file) => {
-     if (file) {
-          const form = new FormData();
-          const image = await fs.readFile(file.path);
-          form.append("image", image, file.originalname);
-          const response = await axios.post(ageGenderServiceURL, form, {
-               headers: {
-                    ...form.getHeaders(),
-               },
-          });
+     return { age: 20, gender: "male" };
+     // if (file) {
+     //      const form = new FormData();
+     //      const image = await fs.readFile(file.path);
+     //      form.append("image", image, file.originalname);
+     //      const response = await axios.post(ageGenderServiceURL, form, {
+     //           headers: {
+     //                ...form.getHeaders(),
+     //           },
+     //      });
 
-          return response.data;
-     }
+     //      return response.data;
+     // }
 };
 
 const findRoleById = async (roleId) => {

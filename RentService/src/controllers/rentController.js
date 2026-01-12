@@ -6,9 +6,7 @@ const vehicleController = require("./vehicleController");
 const authController = require("./authController");
 const rentModel = require("../models/rentModel");
 
-const authServiceURL = "http://localhost:5001/users";
-const authKey = "aa13693c-afc2-4cf6-863a-347194d9b504";
-const geoserverUrl = "http://localhost:8080/geoserver/wfs?authkey=" + authKey + "&";
+const authServiceURL = process.env.AUTH_SERVICE_URL || "http://localhost:5001/users";
 
 exports.startRental = async (req, res) => {
      try {
@@ -177,7 +175,7 @@ exports.startRental = async (req, res) => {
                return res.status(400).json({ message: "Unable to show rent details" });
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unexpected error occured!", erro: err });
+          return res.status(500).json({ message: "An unexpected error occured!", erro: err.response ? err.response.data : err.message });
      }
 };
 
@@ -221,64 +219,7 @@ exports.stopRental = async (req, res) => {
                }
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unexpected error occured!", erro: err });
-     }
-};
-
-exports.getClosestAvailableVehicle = async (req, res) => {
-     try {
-          const lat = req.params.lat;
-          const long = req.params.long;
-          const result = [];
-
-          if (lat && long) {
-               // Get available vehicles
-               const availableVehicles = await vehicleController.getAvailableVehicles();
-               console.log(availableVehicles.data);
-
-               if (availableVehicles && availableVehicles.data) {
-                    // Get last Location foreach vehicle
-                    const task = new Promise((resolve, reject) => {
-                         availableVehicles.data.forEach(async (vehicle, index, array) => {
-                              let location = await getLocationByVehicleId(vehicle.vehicleId);
-                              if (location) {
-                                   // add to result array
-                                   result.push({
-                                        vehicle,
-                                        location: {
-                                             lat: location.lat,
-                                             long: location.long,
-                                        },
-                                   });
-                              }
-
-                              if (index === array.length - 1) {
-                                   resolve();
-                              }
-                         });
-                    });
-
-                    task.then(async () => {
-                         // Get closest vehicle
-                         let closestVehicleId = await getClosestVehicle(result, { lat, long });
-                         const vehicle = result.filter((v) => {
-                              return v.vehicle.vehicleId == closestVehicleId;
-                         });
-
-                         if (vehicle) {
-                              return res.status(200).json(vehicle);
-                         } else {
-                              return res.status(404).json({ message: "No vehicle found!" });
-                         }
-                    });
-               } else {
-                    return res.status(404).json({ message: "No vehicles available." });
-               }
-          } else {
-               return res.status(400).json({ message: "You must provide your current geolocation coordinates." });
-          }
-     } catch (error) {
-          return res.status(500).json(error);
+          return res.status(500).json({ message: "An unexpected error occured!", erro: err.response ? err.response.data : err.message });
      }
 };
 
@@ -302,111 +243,11 @@ exports.getRentsByUsername = async (req, res) => {
      }
 };
 
-exports.getClosestPathToVehicle = async (req, res) => {
-     try {
-          const vehicle = Number(req.params.id);
-          const myLocation = {
-               lat: Number(req.params.lat),
-               long: Number(req.params.long),
-          };
-
-          if (isNaN(vehicle) || vehicle <= 0) {
-               return res.status(400).json({ message: "Must provide a vehicle id!" });
-          }
-
-          if (!myLocation || isNaN(myLocation.lat) || isNaN(myLocation.long)) {
-               return res.status(400).json({ message: "Must provide a valid location!" });
-          }
-
-          const lastVehicleLocation = await getLocationByVehicleId(vehicle);
-
-          if (!lastVehicleLocation) {
-               return res.status(400).json({ message: "Unable to get last vehicle location!" });
-          }
-
-          const shortestPath = await calculateClosestPath(myLocation, {
-               lat: lastVehicleLocation.lat,
-               long: lastVehicleLocation.long,
-          });
-
-          if (shortestPath) {
-               return res.status(200).json(shortestPath);
-          } else {
-               return res.status(400).json({ message: "Unable to calculate shortest path!" });
-          }
-     } catch (error) {
-          return res.status(500).json({ message: "Unexpected error!", error: error });
-     }
-};
-
 getLocationByVehicleId = async (id) => {
      try {
           const location = await vehicleLocationController.getLatestLocationById(id);
           return location.data;
      } catch {
-          return null;
-     }
-};
-
-getClosestVehicle = async (vehicles, myLocation) => {
-     let min = 0;
-     let vehicleIdMin = 0;
-
-     if (vehicles) {
-          return new Promise((resolve, reject) => {
-               vehicles.forEach(async (v, i, array) => {
-                    let distance = await calculateDistance({ lat: v.location.lat, long: v.location.long }, { lat: myLocation.lat, long: myLocation.long });
-                    if (distance && !isNaN(Number(distance))) {
-                         if (i == 0) {
-                              min = Number(distance);
-                              vehicleIdMin = v.vehicle.vehicleId;
-                         } else {
-                              if (Number(distance) < min) {
-                                   min = Number(distance);
-                                   vehicleIdMin = v.vehicle.vehicleId;
-                              }
-                         }
-                    }
-
-                    if (i == array.length - 1) resolve(vehicleIdMin);
-               });
-          });
-     }
-};
-
-calculateDistance = async (origem, destiny) => {
-     try {
-          const urlOrigem = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:nearest_vertex&outputformat=application/json&viewparams=x:${origem.long};y:${origem.lat};`;
-
-          const urlDestiny = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:nearest_vertex&outputformat=application/json&viewparams=x:${Number(
-               destiny.long
-          )};y:${Number(destiny.lat)};`;
-          const responseOrigem = await axios.get(urlOrigem);
-          const responseDestiny = await axios.get(urlDestiny);
-
-          if (responseDestiny && responseOrigem) {
-               let origemPath = responseOrigem.data.features[0].properties.id;
-               let destinyPath = responseDestiny.data.features[0].properties.id;
-
-               const pathURL = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:shortest_path&outputformat=application/json&viewparams=source:${origemPath};target:${destinyPath};`;
-
-               const result = await axios.get(pathURL);
-               if (result && result.data) {
-                    let distance = 0;
-                    let i = 0;
-                    if (result) {
-                         while (i < result.data.features.length) {
-                              distance += result.data.features[i].properties.distance;
-                              i++;
-                         }
-
-                         return distance.toFixed(2);
-                    }
-               }
-          }
-          return null;
-     } catch (error) {
-          console.log(error);
           return null;
      }
 };
@@ -532,35 +373,3 @@ getRentByUsernameAndVehicle = async (vehicleId, username) => {
      }
 };
 
-calculateClosestPath = async (source, target) => {
-     try {
-          const response = {};
-
-          const urlSource = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:nearest_vertex&outputformat=application/json&viewparams=x:${Number(
-               source.long
-          )};y:${Number(source.lat)};`;
-          const urlTarget = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:nearest_vertex&outputformat=application/json&viewparams=x:${Number(
-               target.long
-          )};y:${Number(target.lat)};`;
-
-          const responseSource = await axios.get(urlSource);
-          const responseTarget = await axios.get(urlTarget);
-
-          if (responseSource && responseTarget) {
-               let sourcePath = responseSource.data.features[0].properties.id;
-               let targetPath = responseTarget.data.features[0].properties.id;
-
-               const pathURL = `${geoserverUrl}service=WFS&version=1.0.0&request=GetFeature&typeName=trabalho_AS:shortest_path&outputformat=application/json&viewparams=source:${sourcePath};target:${targetPath};`;
-
-               const result = await axios.get(pathURL);
-
-               if (result && result.data) {
-                    return result.data;
-               }
-          }
-          return null;
-     } catch (error) {
-          console.log(error);
-          return null;
-     }
-};

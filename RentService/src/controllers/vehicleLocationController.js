@@ -1,5 +1,5 @@
 const axios = require("axios");
-const vehicleLocationServiceURL = "http://localhost:3000/vehicleLocation";
+const vehicleLocationServiceURL = process.env.VEHICLE_LOCATION_SERVICE_URL || "http://localhost:3000/vehicleLocation";
 
 exports.getAll = async (req, res) => {
      try {

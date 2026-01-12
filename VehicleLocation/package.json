@@ -4,8 +4,8 @@
      "description": "receive and save vehicle locations",
      "main": "server.js",
      "scripts": {
-          "start": "node server.js",
-          "startdev": "nodemon server.js"
+          "start": "node seedDB.js && node server.js",
+          "startdev": "node seedDB.js && nodemon server.js"
      },
      "author": "",
      "license": "ISC",

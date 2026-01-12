@@ -4,12 +4,12 @@
 
 const environment = {
   mqtt: {
-    broker: (process.env.MQTT_BROKER || 'localhost').trim(),
+    broker: (process.env.MQTT_BROKER || 'mosquitto').trim(),
     port: process.env.MQTT_PORT || 1883,
     topic: process.env.MQTT_TOPIC || 'VehicleLocation',
   },
   db: {
-    host: process.env.DBHOST || 'mongodb://localhost:27017/',
+    host: process.env.DBHOST || 'mongodb://database:27017/',
     name: process.env.DBNAME || 'VehicleLocation',
   }
 };

@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 # copiar para usr/src/app, o package.json
 COPY package*.json ./
 COPY server.js ./
+COPY ./seedDB.js ./
 
 # install production dependencies   
 RUN npm i --only=production

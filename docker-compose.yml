@@ -89,6 +89,9 @@ services:
                - DBHOST=mongodb://database:27017/
                - DBNAME=Rent
                - JWT_SECRET=jwtsecret
+               - AUTH_SERVICE_URL=http://auth:5001/users
+               - VEHICLE_SERVICE_URL=http://vehicle:5003
+               - VEHICLE_LOCATION_SERVICE_URL=http://vehiclelocation:3000/vehicleLocation
           depends_on:
                - database
           restart: "no"

@@ -2,7 +2,7 @@ const FormData = require("form-data");
 const axios = require("axios");
 const fs = require("fs/promises");
 
-const authServiceURL = "http://localhost:5001/users";
+const authServiceURL = process.env.AUTH_SERVICE_URL || "http://localhost:5001/users";
 
 exports.register = async (req, res) => {
      try {
@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unexpected error occured!", erro: err.response.data });
+          return res.status(500).json({ message: "An unexpected error occured!", erro: err.response ? err.response.data : err.message });
      }
 };
 
@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (err) {
-          return res.status(500).json({ erro: err.response.data });
+          return res.status(500).json({ message: "An unexpected error occured!", erro: err.response ? err.response.data : err.message });
      }
 };
 
@@ -77,7 +77,7 @@ exports.addBalance = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (error) {
-          return res.status(500).json({ message: "An unexpected error occured!", error: error });
+          return res.status(500).json({ message: "An unexpected error occured!", error: error.response ? error.response.data : error.message });
      }
 };
 

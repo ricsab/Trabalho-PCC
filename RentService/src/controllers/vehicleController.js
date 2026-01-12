@@ -1,8 +1,9 @@
 const axios = require("axios");
-const vehicleServiceURL = "http://localhost:5003/vehicle";
-const vehicleTypeServiceURL = "http://localhost:5003/vehicleType";
-const vehicleDetailsServiceURL = "http://localhost:5003/vehicleDetails";
-const availableVehiclesDetailsServiceURL = "http://localhost:5003/vehicleAvailableDetails";
+const vehicleServiceBaseURL = process.env.VEHICLE_SERVICE_URL || "http://localhost:5003";
+const vehicleServiceURL = `${vehicleServiceBaseURL}/vehicle`;
+const vehicleTypeServiceURL = `${vehicleServiceBaseURL}/vehicleType`;
+const vehicleDetailsServiceURL = `${vehicleServiceBaseURL}/vehicleDetails`;
+const availableVehiclesDetailsServiceURL = `${vehicleServiceBaseURL}/vehicleAvailableDetails`;
 
 exports.getAllVehicles = async (req, res) => {
      try {

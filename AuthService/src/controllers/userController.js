@@ -5,7 +5,7 @@ const fs = require("fs/promises");
 const User = mongoose.model("UserModel");
 const UserRole = mongoose.model("UserRolesModel");
 
-const ageGenderServiceURL = "http://127.0.0.1:5000/api/predict";
+const ageGenderServiceURL = process.env.AGE_GENDER_SERVICE_URL || "http://127.0.0.1:5000/api/predict";
 
 exports.register = async (req, res) => {
      try {
@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
 
           return res.status(400).json({ message: "An unexpected error occured!" });
      } catch (err) {
-          return res.status(500).json({ message: "An unexpected error occured!", erro: err });
+          return res.status(500).json({ message: "An unexpected error occured!", error: err.response ? err.response.data : err.message });
      }
 };
 
@@ -89,7 +89,7 @@ exports.login = async (req, res) => {
           }
           return res.status(400).json({ message: "An unexpected error occured!" });
      } catch (err) {
-          return res.status(500).json({ message: "An unexpected error occured!", error: err });
+          return res.status(500).json({ message: "An unexpected error occured!", error: err.response ? err.response.data : err.message });
      }
 };
 
@@ -125,7 +125,7 @@ exports.addBalance = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unespected error occured", error: err });
+          return res.status(500).json({ message: "An unespected error occured", error: err.response ? err.response.data : err.message });
      }
 };
 
@@ -162,7 +162,7 @@ exports.takeBalance = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unespected error occured", error: err });
+          return res.status(500).json({ message: "An unespected error occured", error: err.response ? err.response.data : err.message });
      }
 };
 
@@ -184,7 +184,7 @@ exports.getByUsername = async (req, res) => {
                return res.status(400).json({ message: "There are required fields not set!" });
           }
      } catch (err) {
-          return res.status(500).json({ message: "An unespected error occured", error: err });
+          return res.status(500).json({ message: "An unespected error occured", error: err.response ? err.response.data : err.message });
      }
 };
 
